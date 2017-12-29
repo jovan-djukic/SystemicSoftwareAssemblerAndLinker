@@ -1,0 +1,32 @@
+.text.main
+
+.global main
+
+msg: .asciiz "Number of incorect instructions"
+msgadr: .long msg
+
+print: .long printmessage
+counter: .long instructionCounter
+
+main:
+	.long 0xEAFFFFFF
+	.long 0xEAFFFFFF
+	.long 0xEAFFFFFF
+	.long 0xEAFFFFFF
+
+	ldr r0, msgadr
+	ldr r1, print
+	call [r1]
+
+	ldr r0, counter
+	ldr r0, [r0]
+	add r0, 48
+	ldc r1, 0x2000
+	out r0, [r1]
+	ldc r0, 10
+	out r0, [r1]
+
+	
+	int 0
+
+.end

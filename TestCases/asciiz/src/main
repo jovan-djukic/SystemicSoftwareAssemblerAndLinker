@@ -1,0 +1,21 @@
+.text.main
+
+msg: .asciiz "Hello world"
+newline: .char 10, 0
+
+msgadr: .long msg
+newlineadr: .long newline
+
+function: .long printmessage
+
+.global main
+main:
+	ldr r1, function
+	ldr r0, msgadr
+	call [r1]
+	ldr r0, newlineadr
+	call [r1]
+
+	int 0
+
+.end

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [[ ! -d $1 ]]; then
+	echo "${1} not a directory"
+	exit 1
+fi
+
+script=${1}/script
+
+commandLineArguments=""
+
+if [[ -f $script && -r $script ]]; then
+	commandLineArguments="-t ${script}"
+fi
+
+for file in $(ls $1)
+do
+	path=${1}/${file}
+	
+	if [[ $path != $script && -r $path ]]; then
+		commandLineArguments="${commandLineArguments} ${path}"
+	fi
+done
+
+./LinkerAndEmulator ${commandLineArguments}

@@ -1,0 +1,57 @@
+.text.main
+
+.global main
+
+memory: .long dynamicMemory
+n: .long 0
+
+printmessageadr: .long printmessage
+scannumberadr: .long scannumber
+scanarrayadr: .long scanarray
+printarrayadr: .long printarray
+sortarrayadr: .long sortarray
+
+number: .asciiz "Enter number of array elements"
+numberadr: .long number
+scanarraymsg: .asciiz "Enter array elements"
+scanarraymsgadr: .long scanarraymsg
+sortedarraymessage: .asciiz "Sorted array message"
+sortedarraymessageadr: .long sortedarraymessage
+
+main:
+	ldc r4, 0x2000
+
+	ldr r0, numberadr
+	ldr r1, printmessageadr
+	call [r1]
+
+	ldr r1, scannumberadr
+	call [r1]
+	str r0, n
+
+	ldr r0, scanarraymsgadr
+	ldr r1, printmessageadr
+	call [r1]
+
+	ldr r3, scanarrayadr
+	ldr r0, memory
+	ldr r1, n
+	call [r3]
+
+	ldr r0, memory
+	ldr r1, n
+	ldr r3, sortarrayadr
+	call [r3]
+
+	ldr r0, sortedarraymessageadr
+	ldr r1, printmessageadr
+	call [r1]
+
+	ldr r0, memory
+	ldr r1, n
+	ldr r3, printarrayadr
+	call [r3]
+
+	int 0
+
+.end

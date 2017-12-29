@@ -1,0 +1,4 @@
+/home/etf/Desktop/TestCases/array/o/ivt.output(.data.ivt)
+
+stackHead = 0x2000
+dynamicMemory = 0x3000

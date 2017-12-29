@@ -1,0 +1,55 @@
+.data.ivt
+	.long init
+	.long timer
+	.long instruction
+	.long keyboard
+	.skip 48
+
+.text.ivt
+
+start: .long main
+stack: .long stackHead
+
+init:
+	ldr sp, stack
+	ldc r0, 0xC0000000
+	push r0
+	ldr r0, start
+	push r0
+	iret
+
+.global timerCounter
+timerCounter: .long 0
+
+timer:
+	push r0
+	ldr r0, timerCounter
+	add r0, 1
+	str r0, timerCounter
+	pop r0
+	iret
+
+instructionCounter: .long 0
+
+instruction:
+	push r0
+	ldr r0, instructionCounter
+	add r0, 1
+	str r0, instructionCounter
+	pop r0
+	iret
+
+.global lastCharacter
+lastCharacter: .long 0
+
+keyboard:
+	push r0
+	push r1
+	ldc r0, 0x1000
+	in r1, [r0]
+	str r1, lastCharacter
+	pop r1
+	pop r0
+	iret
+
+.end

@@ -1,0 +1,74 @@
+.text.utilities
+
+.global printmessage
+printmessage:
+	push lr
+	push r1
+	push r2
+	push r3
+
+	ldc r1, 0x2000
+	ldc r2, 0xFF
+
+printmessageloop:
+	ldr r3, [r0]
+	add r0, 1
+	and r3, r2
+	cmp r3, 0
+	calleq printmessageend
+	out r3, [r1]
+	call printmessageloop
+printmessageend:
+	ldc r3, 10
+	out r3, [r1]
+
+	pop r3
+	pop r2
+	pop r1
+	pop lr
+	ret
+
+scan:
+	push lr
+	push r1
+	push r2
+	push r3
+
+	ldc r1, 0x1010
+	ldc r2, 0x200
+	not r3, r2
+
+scanloop:
+	in r0, [r1]
+	test r0, r2
+	calleq scanloop
+
+	ldc r0, 0x1000
+	in r0, [r0]
+
+	not r2, r2
+	in r3, [r1]
+	and r3, r2
+	out r3, [r1]
+
+	pop r3
+	pop r2
+	pop r1
+	pop lr
+	ret
+
+.global scannumber
+
+scannumber:
+	push lr
+
+	call scan
+	sub r0, 48
+	push r0
+	call scan
+	pop r0
+
+	pop lr
+	ret
+
+.end

@@ -1,0 +1,39 @@
+.text.main
+
+timer: .long timerCounter
+
+msg: .asciiz "Enter the number of seconds for program to work"
+msgadr: .long msg
+
+endmsg: .asciiz "Goodbye"
+endmsgadr: .long endmsg
+
+printfunction: .long printmessage
+scanfunction: .long scannumber
+
+.global main
+main:
+	ldr r1, printfunction
+
+	ldr r0, msgadr
+	call [r1]
+
+	ldr r1, scanfunction
+	call [r1]
+
+	ldr r1, timer
+	ldr r2, [r1]
+
+loop:
+	ldr r3, [r1]
+	sub r3, r2
+	cmp r3, r0
+	calllt loop
+
+	ldr r1, printfunction
+	ldr r0, endmsgadr
+	call [r1]
+
+	int 0
+
+.end

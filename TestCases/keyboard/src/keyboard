@@ -1,0 +1,31 @@
+.text.keyboard
+
+.global main
+
+character: .long lastCharacter
+
+main:
+	ldc r0, 0x1010
+	ldc r1, 0x2000
+	ldc r2, 0x200
+	not r3, r2
+
+loop:
+	in r4, [r0]
+	test r4, r2
+	calleq loop
+
+	ldr r5, character
+	ldr r5, [r5]
+
+	and r4, r3
+	out r4, [r0]
+
+	out r5, [r1]
+
+	cmp r5, 48
+	callne loop
+
+	int 0
+
+.end
